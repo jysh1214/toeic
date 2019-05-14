@@ -5,7 +5,10 @@
 #include <stdlib.h> 
 #include <string>
 #include <fstream>
+#include <vector>
 #include <sstream>
+
+#include "color_mod.h"
 
 using namespace std;
 
@@ -14,13 +17,22 @@ string FILE_PATH = "./problem/";
 class Problem
 {
 public:
-    Problem(int total_number_of_problems): total_sum(total_number_of_problems) {}
+    Problem(int total_number_of_problems): total_sum(total_number_of_problems) 
+    {
+        for (int i = 0; i < total_sum; i++)
+        {
+            this->problems.push_back(i + 1);
+        }
+
+        this->shuffle(this->problems.begin(), this->problems.end());
+    }
     virtual ~Problem() {}
 
-    void showProblem()
+    void showProblem(int number)
     {
-        string file_path = this->randomFilePath();
-        this->parser(file_path);
+        string file_path = to_string(this->problems[number]);
+        file_path += ".txt";
+        this->parser("./problem/" + file_path);
 
         cout << this->text << endl;
         cout << "Input Answer: " ;
@@ -34,23 +46,32 @@ public:
 
     void showResult(string user_asnwer)
     {
+        Color::Modifier green(Color::FG_GREEN);
+        Color::Modifier red(Color::FG_RED);
+        Color::Modifier def(Color::FG_DEFAULT);
+        
         if (this->checkAnswer(user_asnwer))
         {
-            cout << "Correct!" << endl;
+            cout << green << "Correct!" << def << endl;
         }
         else
         {
-            cout << "Wrong!" << "The answer is " << this->answer << endl;
+            cout << red << "Wrong!" << def;
+            cout << "The answer is " << this->answer << endl;
         }
     }
 
 private:
-    string randomFilePath()
+    template< class T >
+    void shuffle(T first, T last)
     {
         srand(time(nullptr));
-        string random_file = to_string(rand()%(this->total_sum) + 1);
-        random_file += ".txt";
-        return "./problem/" + random_file;
+        typename iterator_traits<T>::difference_type i, n;
+        n = last - first;
+        for (i = n-1; i > 0; --i)
+        {
+            swap(first[i], first[rand()%(i+1)]);
+        }
     }
 
     void parser(string file_path)
@@ -73,6 +94,8 @@ private:
         this->answer = myFile[0];
         this->text = myFile.substr(1, myFile.size());
     }
+
+    vector<int> problems;
 
     int total_sum;
     string text;
