@@ -34,6 +34,8 @@ public:
         file_path += ".txt";
         this->parser("./problem/" + file_path);
 
+        cout << "(" << number+1 << "/" << total_sum << ")";
+
         cout << this->text << endl;
         cout << "Input Answer: " ;
     }

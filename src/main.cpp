@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int TOTAL_NUMBER_OF_PROBLEMS = 64;
+int TOTAL_NUMBER_OF_PROBLEMS = 91;
 
 int main()
 {
