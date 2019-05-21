@@ -17,7 +17,8 @@ string FILE_PATH = "./problem/";
 class Problem
 {
 public:
-    Problem(int total_number_of_problems): total_sum(total_number_of_problems) 
+    Problem(int number_of_problems, int training_size): 
+    total_sum(number_of_problems), batch_size(training_size)
     {
         for (int i = 0; i < total_sum; i++)
         {
@@ -99,7 +100,7 @@ private:
 
     vector<int> problems;
 
-    int total_sum;
+    int total_sum; int batch_size;
     string text;
     string answer;
 };
