@@ -59,7 +59,7 @@ public:
         else
         {
             cout << red << "Wrong!" << def;
-            cout << "The answer is " << this->answer << endl;
+            cout << "The answer is (" << this->answer << ")" << endl;
         }
     }
 
